@@ -7,32 +7,24 @@
 <script>
 import {mapState,mapMutations,mapActions} from 'vuex'
 export default {
-    name:'FooterFake',
-    props:{
-
+    mounted(){
+        this.getNum();
     },
     computed:mapState({
         num:state=>state.num,
-        list:state=>state.list,
-        num(state){
-            return state.num;
-        },
-        list(state){
-            return state.list;
-        },
-    
-    mounted() {
-        this.$store.dispatch('getNum');
-    }
-    })},
+        list:state=>state.list
+        }),
     methods: {
+        ...mapActions([
+            'getNum'
+            ]),
         ...mapMutations([
             'changeNum'
         ]),
-    resetButton(){
-        this.changeNum('500');
-    }   
-
+        resetButton(){
+            this.changeNum('500');
+        },   
+     
     },
 }
 </script>
