@@ -19,11 +19,12 @@ export default {
         },
         list(state){
             return state.list;
-        }
-    }),
+        },
+    
     mounted() {
         this.$store.dispatch('getNum');
-    },
+    }
+    })},
     methods: {
         ...mapMutations([
             'changeNum'
