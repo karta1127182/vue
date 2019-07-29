@@ -1,20 +1,19 @@
 <template>
+<div>
+  <HeaderFake/>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to="/ben">Ben</router-link>
+    </div>
+    <router-view/>
+    
+  </div>
+  <FooterFake/>
   </div>
 </template>
-
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
-</script>
 
 <style>
 #app {
@@ -23,6 +22,28 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: 500px;
   margin-top: 60px;
+
 }
+/* .router-link-active{
+ background-color: #faa;
+} */
+.router-link-exact-active {
+ background-color: #ccc;
+}
+
 </style>
+
+<script>
+// @ is an alias to /src
+import HeaderFake from './components/HeaderFake/index.vue'
+import FooterFake from './components/FooterFake/index.vue'
+export default {
+  name: 'app',
+  components: {
+    HeaderFake,
+    FooterFake
+  }
+}
+</script>
