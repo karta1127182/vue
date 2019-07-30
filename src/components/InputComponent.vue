@@ -21,5 +21,11 @@ export default {
     
 }
 </script>
-<template src="./template.html"></template>
-<style scoped src="./style.css"></style>
+<template>
+    <input type="text" v-model="inputtext">
+</template>
+<style >
+    input{
+        height: 20px;
+    }
+</style>

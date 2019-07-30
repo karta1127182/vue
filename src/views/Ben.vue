@@ -14,7 +14,7 @@
 <script>
 // @ is an alias to /src
 import titlehandler from '@/components/Titlehandler.vue'
-import InputComponent from '@/components/InputComponent/index.vue'
+import InputComponent from '@/components/InputComponent.vue'
 export default {
   name: 'Ben',
   data(){
