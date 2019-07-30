@@ -1,8 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import axios from 'axios';
-
-Vue.use(Vuex)
+import Vue from 'vue';
+import Vuex from 'vuex';
+import {itemRead,itemCreat,itemDelet,itemEdit} from '../api.js';
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   
@@ -15,14 +14,14 @@ export default new Vuex.Store({
           state.num = payload;
       },
       enterlist(state,payload){
-        state.list =payload
+        state.list =payload;
       }
       
   },
   actions: {
     getList(context){
       let {commit} = context;
-      axios.get('http://localhost:3000/posts')
+      itemRead()
       .then(function (response) {
       commit('enterlist',(response.data));
       })
@@ -31,27 +30,38 @@ export default new Vuex.Store({
       });
     },
     enterList(context,posts){
-      let{state}=context
-      axios.post('http://localhost:3000/posts',posts)
+      let{state}=context;
+      itemCreat(posts)
       .then(function (res) {
         state.list.push(res.data);
       })
       .then(function(){
-        alert('成功')
+        alert('成功');
+        window.location.reload();
       })
       .catch(function(err){
         alert(err);
       });
     },
+    editList(context,edit){
+      itemEdit(edit.id,edit)
+      .then(function(){
+        alert('成功');
+        window.location.reload();
+      })
+      .catch(function(err){
+        alert(err)
+      })
+
+    },
     deleteList(context,index)
     {
-      let{state}=context;
-      let target=this.state.list[index]
-      if(confirm(`是否刪除 ${target.name.first},${target.name.last}`)){
-        axios.delete('http://localhost:3000/posts/'+index)
+   
+      if(confirm(`是否刪除 ${index}`)){
+        itemDelet(index)
         .then(function(){
-          state.list.splice(index,1)
-          alert('成功')
+          alert('成功');
+          window.location.reload();
         })
         .catch(function(err){
           alert(err);

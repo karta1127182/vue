@@ -1,37 +1,42 @@
 <template>
     <div class="menu">
-        <div class="newItem">
-            <input type="text" name="firstName" placeholder="firstname" v-model="input.firstName">
-            <input type="text" name="lastName" placeholder="lastname"  v-model="input.lastName">
-            <input type="text" name="age" placeholder="age" v-model="input.age">
-            <input type="text" name="phone" placeholder="phone" v-model="input.phone">
-            <input type="text" name="address" placeholder="address"  v-model="input.address">
-            <button @click="enterHandler">新增</button>
-            <button @click="cleanHandler">取消</button>
-        </div>
-        <div class="menuItem" v-for="(item,index) in list" :key="item.id">
-            <span class="menuKindSamll">{{item.id}}</span> |
-            <span class="menuKind">{{item.name.first}},{{item.name.last}}</span> |
-            <span class="menuKindSamll">{{item.age}}</span> |
-            <span class="menuKind">{{item.phone}}</span> |
-            <span class="menuKind">{{item.address}}</span> 
-            <button>修改</button>
-            <button @click="deleteHandler(index)">刪除</button>
-        </div>
-        
+        <newItem 
+        :firstName.sync="input.firstName"
+        :lastName.sync="input.lastName"
+        :age.sync="input.age"
+        :phone.sync="input.phone"
+        :address.sync="input.address"
+        @itemNew="enterHandler()"
+        @itemClean="cleanHandler(index)"
+        />
+        <menuItem 
+            v-for="item in list" 
+            :key="item.id"  
+            :itemId="item.id" 
+            :itemNameFirst="item.name.first"
+            :itemNameLast="item.name.last"
+            :itemAge="item.age"
+            :itemPhone="item.phone"
+            :itemAddress="item.address"
+            @itemDel="deleteHandler(item.id)"
+            @editHandler="editHandler"
+        />
     </div>
 </template>
 <script>
 import { mapState,mapActions } from 'vuex';
 import menuItem from '@/components/menuItem.vue';
+import newItem from '@/components/newItem.vue';
 export default {
     data()
     {
         return{
+            edit:{},
+            editActive:true,
             input:{
             firstName:'',
             lastName:'',
-            age:'',
+            age:Number,
             phone:'',
             address:''}
         }
@@ -40,30 +45,34 @@ export default {
         this.getList();
     },
    
-    computed:mapState({
-        list:state=>state.list
+    computed:
+        mapState({
+            list:state=>state.list
         }),
+        
     components:{
-        menuItem
+        menuItem,
+        newItem
     },
     methods:{
     ...mapActions([
       'getList',
       'enterList',
-      'deleteList'
+      'deleteList',
+      'editList' 
     ]),
     enterHandler(){
         let posts ={
-            "age": this.input.age,
+            "age": parseInt(this.input.age),
             "name": {
                 "first": this.input.firstName,
-                "last": this.input.lastName
+                "last": this.input.lastName,
             },
             "phone": this.input.phone,
-            "address": this.input.address
+            "address": this.input.address,
         }
         
-        this.enterList(posts)
+        this.enterList(posts);
         this.cleanHandler();
     },
     deleteHandler(index){
@@ -76,13 +85,16 @@ export default {
             lastName:"",
             age:"",
             phone:"",
-            address:""
+            address:"",
         }
+    },
+    editHandler(edit){
+        this.editList(edit)
     }
     },
 }
 </script>
-<style scope>
+<style>
 .menuKind{
     width: 200px;
     display: inline-block;

@@ -27,9 +27,7 @@ export default {
     titlehandler,
   },
   methods: {
-    changehandler(val){
-        this.title=val;
-    }  
+ 
   },
 }
 </script>
